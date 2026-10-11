@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import type { RootState, AppDispatch } from "../redux/store";
+import moment from 'moment'
 import {
   getMyBookings,
   cancelBooking as cancelBookingApi,
@@ -67,8 +68,8 @@ const Bookings = () => {
           {bookings.map((booking) => (
             <div key={booking._id} className="rounded-lg border p-4">
               <h2 className="text-lg font-semibold">{booking.name}</h2>
-              <p>Check-in: {booking.checkIn.slice(0, 10)}</p>
-              <p>Check-out: {booking.checkOut.slice(0, 10)}</p>
+              <p>Check-in: {moment(booking.checkIn).format("DD MM YYYY")}</p>
+              <p>Check-out: {moment(booking.checkOut).format("DD MM YYYY")}</p>
               <p>Guests: {booking.guests}</p>
               <p>Total price: ₹{booking.totalPrice}</p>
               <p>

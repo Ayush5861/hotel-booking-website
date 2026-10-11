@@ -7,6 +7,7 @@ import { MongooseModule } from '@nestjs/mongoose';
 import { HotelsModule } from './hotels/hotels.module.js';
 import { RoomsModule } from './rooms/rooms.module.js';
 import { BookingsModule } from './bookings/bookings.module.js';
+import { AdminModule } from './admin/admin.module.js';
 
 export const { ObserveModule, ObserveInstrument } = createObserveModule();
 
@@ -19,6 +20,7 @@ export const { ObserveModule, ObserveInstrument } = createObserveModule();
     HotelsModule,
     RoomsModule,
     BookingsModule,
+    AdminModule,
   ],
   controllers: [AppController],
   providers: [AppService],

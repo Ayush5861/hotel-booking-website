@@ -1,7 +1,7 @@
 
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { useNavigate, useParams } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import type { RootState, AppDispatch } from "../redux/store";
 import { getRooms, deleteRoom as deleteRoomApi } from "../services/roomServices";
 import { setRooms, deleteRoom as deleteRoomAction } from "../redux/roomSlice";
@@ -92,7 +92,7 @@ const Rooms = () => {
                 {
                     user.role === "guest" && (
                         <>
-                        <button>Book</button>
+                       <Link to={`/bookings/add/${hotelId}/${room._id}`} className="cursor-pointer">Book Room</Link>
                         </>
                     )
                 }

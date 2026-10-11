@@ -51,7 +51,7 @@ async getUserBookings(guestId: string) {
 //ek owner ke hotel me kitne bookings
 async getHotelBookings(hotelId: string, ownerId: string) {
   const hotel = await this.hotelModel.findById(hotelId);
-
+  
   if (!hotel) {
     throw new NotFoundException('Hotel not found');
   }
@@ -59,6 +59,8 @@ async getHotelBookings(hotelId: string, ownerId: string) {
   if (hotel.ownerId !== ownerId) {
     throw new BadRequestException('You do not own this hotel');
   }
+
+
 
   return this.bookingModel.find({ hotelId }).sort({ createdAt: -1 });
 }
@@ -113,11 +115,33 @@ async updateBookings(bookingId:string ,data:UpdateBookingDto, guestId:string){
     }
 
 
-    const nights = Math.ceil((checkOut.getTime()-checkIn.getTime())/24*60*60*1000)
+    const nights = Math.ceil((checkOut.getTime()-checkIn.getTime())/100*60*60*24)
   
 
   Object.assign(booking, {...data , totalPrice : nights*room.pricePerNight});
   return await booking.save();
+}
+
+//change status of booking by owner 
+async changeStatus(
+  bookingId: string,
+  status: BookingStatus,
+  ownerId: string,
+) {
+  const booking = await this.bookingModel.findById(bookingId);
+
+  if (!booking) {
+    throw new NotFoundException('Booking not found');
+  }
+
+  const hotel = await this.hotelModel.findById(booking.hotelId);
+
+  if (!hotel || hotel.ownerId !== ownerId) {
+    throw new ForbiddenException('You cannot update this booking');
+  }
+
+  booking.status = status;
+  return booking.save();
 }
 
 

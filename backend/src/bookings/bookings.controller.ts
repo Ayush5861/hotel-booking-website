@@ -7,6 +7,7 @@ import { userRole } from '../auth/schema/user.schema.js';
 import { Roles } from '../auth/decorator/role.decorator.js';
 import { JwtAuthGuard } from '../auth/guards/jwt-auth-guard.js';
 import { UpdateBookingDto } from './dto/update-booking.dto.js';
+import { BookingStatus } from './schema/booking.schema.js';
 
 @UseGuards(JwtAuthGuard)
 @Controller('bookings')
@@ -66,6 +67,21 @@ getRoomBookings(
 @Patch(":bookingId")
 updateBookings(@Param('bookingId') bookingId:string, @Body() data:UpdateBookingDto , @Req() req:any){
 return this.bookingsService.updateBookings(bookingId,data,req.user.id)
+}
+
+@Patch(':bookingId/status')
+@UseGuards(RolesGuard)
+@Roles(userRole.owner)
+changeStatus(
+  @Param('bookingId') bookingId: string,
+  @Body('status') status: BookingStatus,
+  @Req() req: any,
+) {
+  return this.bookingsService.changeStatus(
+    bookingId,
+    status,
+    req.user.id,
+  );
 }
 
 @UseGuards(RolesGuard)

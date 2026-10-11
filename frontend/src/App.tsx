@@ -10,6 +10,10 @@ import EditHotel from "./pages/EditHotel";
 import Rooms from "./pages/Rooms";
 import EditRoom from "./pages/EditRoom";
 import AddRoom from "./pages/AddRoom";
+import Bookings from "./pages/Bookings";
+import AddBookings from "./pages/AddBookings";
+import EditBookings from "./pages/EditBookings";
+import HotelBookings from "./pages/HotelBookings";
 
 function App() {
   return (
@@ -90,6 +94,41 @@ function App() {
   element={
     <Protected role="owner">
       <EditRoom />
+    </Protected>
+  }
+/>
+<Route
+  path="/bookings"
+  element={
+    <Protected role="guest">
+      <Bookings/>
+    </Protected>
+  }
+/>
+
+<Route
+  path="/owner/hotels/:hotelId/bookings"
+  element={
+    <Protected role="owner">
+      <HotelBookings />
+    </Protected>
+  }
+/>
+
+<Route
+  path="/bookings/add/:hotelId/:roomId"
+  element={
+    <Protected role="guest">
+      <AddBookings />
+    </Protected>
+  }
+/>
+
+<Route
+  path="/bookings/edit/:bookingId"
+  element={
+    <Protected role="guest">
+      <EditBookings />
     </Protected>
   }
 />

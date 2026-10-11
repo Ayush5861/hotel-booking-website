@@ -5,6 +5,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import type { RootState, AppDispatch } from "../redux/store";
 import { changeBookingStatus, getHotelBookings } from "../services/bookingServices";
 import { setBookings, updateBooking } from "../redux/bookingSlice";
+import moment from "moment";
 
 const HotelBookings = () => {
   const { hotelId } = useParams();
@@ -71,8 +72,8 @@ const HotelBookings = () => {
           {bookings.map((booking) => (
             <div key={booking._id} className="rounded-lg border p-4">
               <h2 className="text-lg font-semibold">{booking.name}</h2>
-              <p>Check-in: {booking.checkIn.slice(0, 10)}</p>
-              <p>Check-out: {booking.checkOut.slice(0, 10)}</p>
+             <p>Check-in: {moment(booking.checkIn).format("DD MM YYYY")}</p>
+              <p>Check-out: {moment(booking.checkOut).format("DD MM YYYY")}</p>
               <p>Guests: {booking.guests}</p>
               <p>Total price: ₹{booking.totalPrice}</p>
               <p>

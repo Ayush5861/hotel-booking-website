@@ -1,4 +1,4 @@
-import { Body, Controller, Delete, Get, Param, Patch, Post, Req, UseGuards } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Param, Patch, Post, Query, Req, UseGuards } from '@nestjs/common';
 import { HotelsService } from './hotels.service.js';
 import { JwtAuthGuard } from '../auth/guards/jwt-auth-guard.js';
 import { RolesGuard } from '../auth/guards/roles.guard.js';
@@ -13,8 +13,8 @@ export class HotelsController {
     constructor(private readonly hotelService : HotelsService){}
 
     @Get()
-    getHotel(@Req() req:any){
-        return this.hotelService.getHotel(req.user.id , req.user.role)
+    getHotel(@Req() req:any , @Query('search') search?: string){
+        return this.hotelService.getHotel(req.user.id , req.user.role , search)
     }
 
     @Get(':id')

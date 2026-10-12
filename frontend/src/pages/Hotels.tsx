@@ -14,12 +14,14 @@ const Hotels = () => {
   const user = JSON.parse(localStorage.getItem("user") || "null");
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
+   const [search, setSearch] = useState("");
+   
   const navigate = useNavigate();
 
   useEffect(() => {
     const fetchHotels = async () => {
       try {
-        const data = await getHotels();
+        const data = await getHotels(search);
         dispatch(setHotels(data));
       } catch (error: any) {
         setError(error.response?.data?.message || "Failed to fetch hotels");
@@ -28,7 +30,7 @@ const Hotels = () => {
       }
     };
     fetchHotels();
-  }, [dispatch]);
+  }, [dispatch,search]);
 
   if (loading) {
     return <p className="p-6 text-gray-600">Loading hotels...</p>;
@@ -75,6 +77,15 @@ const Hotels = () => {
           )}
         </div>
       )}
+
+
+      <input
+        type="text"
+        placeholder="Search by hotel name, city, area, or amenities..."
+        value={search}
+        onChange={(e) => setSearch(e.target.value)}
+        className="mb-6 w-full rounded-lg border border-gray-300 px-4 py-3 outline-none focus:border-blue-500"
+      />
 
       <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
         {hotels.map((hotel) => (

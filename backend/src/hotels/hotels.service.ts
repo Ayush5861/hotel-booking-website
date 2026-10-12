@@ -13,12 +13,22 @@ export class HotelsService {
     ){}
 
 
-    async getHotel(userId : string , role:string){
-        if(role==='owner'){
-            return await this.hotelModel.find({ownerId:userId})
-        }
-         return await this.hotelModel.find();
+async getHotel(userId: string, role: string, search?: string) {
+    const filter: any = {};
+
+    if (role === 'owner') {
+        filter.ownerId = userId;
     }
+
+    if (search) {
+        filter.$or = [
+            { name: { $regex: search, $options: 'i' } },
+            { city: { $regex: search, $options: 'i' } },
+        ];
+    }
+
+    return await this.hotelModel.find(filter);
+}
 
     async getHotelById(id:string){
         return await this.hotelModel.findOne({_id:id});

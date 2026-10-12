@@ -5,8 +5,8 @@ import type {
   UpdateHotelData,
 } from "../types/hotel";
 
-export const getHotels = async () => {
-  const response = await axiosInterceptor.get("/hotels");
+export const getHotels = async (search ?: string) => {
+  const response = await axiosInterceptor.get("/hotels", {params:{search}});
   return response.data;
 };
 
